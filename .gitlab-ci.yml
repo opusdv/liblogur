@@ -34,7 +34,7 @@ upload_job:
     - job: build_bin_job
       artifacts: true
   script:
-    - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file build/liblogur-0.0.1-1-$CI_PIPELINE_ID.rpm "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/my_package/0.0.1/liblogur-0.0.1-1.rpm"'
+    - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file build/liblogur-0.0.1-1-$CI_PIPELINE_ID.rpm "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/liblogur/0.0.1/liblogur-0.0.1-1-$CI_PIPELINE_ID.rpm"'
 
 release_job:
   image: registry.gitlab.com/gitlab-org/release-cli:latest
