@@ -27,3 +27,5 @@ upload_job:
   needs: ["build_bin_job"]
   script:
     - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file build/liblogur-0.0.1-1.rpm "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/my_package/0.0.1/liblogur-0.0.1-1.rpm"'
+  only:
+    - merge_requests
