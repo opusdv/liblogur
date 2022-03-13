@@ -56,4 +56,4 @@ release_job:
     assets:
       links:
         - name: "Lib RPM Package"
-          filepath: build/liblogur-0.0.1-1-$CI_PIPELINE_ID.rpm
+          url: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/liblogur/0.0.1/liblogur-0.0.1-1-$CI_PIPELINE_ID.rpm"
