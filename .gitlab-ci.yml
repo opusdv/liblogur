@@ -5,19 +5,24 @@ stages:
 
 build_job:
   stage: build
+  tag: aws
   script:
     - echo $CI_JOB_NAME
 unit_job:
   stage: test
+  tag: aws
   script:
     - echo $CI_JOB_NAME
 list_job:
+  tag: aws
   stage: test
   script:
     - echo $CI_JOB_NAME
   when: always
 deploy_job:
   when: manual
+  stage: deploy
+  tag: aws
   script:
     - echo $CI_JOB_NAME
      
