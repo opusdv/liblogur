@@ -15,9 +15,14 @@ build_bin_job:
     - cmake ..
     - make
     - cpack
+    - ls -l 
+  artifacts:
+    paths:
+      - *.rpm
+    expire_in: 1 week
 
 upload_job:
   stage: upload
-  needs: ["build_bin_job"]
+  needs: ["biuild_bin_job"]
   script:
     - ls -l
