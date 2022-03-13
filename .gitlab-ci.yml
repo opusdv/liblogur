@@ -18,7 +18,7 @@ build_bin_job:
     - ls -l 
   artifacts:
     paths:
-      - liblogur-0.0.1-1.rpm
+      - build/liblogur-0.0.1-1.rpm
     expire_in: 1 week
 
 upload_job:
