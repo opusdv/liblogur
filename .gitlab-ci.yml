@@ -18,6 +18,6 @@ build_bin_job:
 
 upload_job:
   stage: upload
-  needs: ["build_bin_job:"]
+  needs: ["build_bin_job"]
   script:
     - ls -l
