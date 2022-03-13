@@ -1,4 +1,7 @@
-image: registry.gitlab.com/opusdv/liblogur/cmake 
+default:
+  image: registry.gitlab.com/opusdv/liblogur/cmake
+  tags: 
+    - aws
 stages:
   - build
   - upload
