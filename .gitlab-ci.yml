@@ -10,6 +10,7 @@ build_job:
     - aws 
   script:
     - echo $CI_JOB_NAME
+    - mkdir build
     - cd build
     - cmake ..
     
