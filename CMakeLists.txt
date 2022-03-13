@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.21.3)
 project(logur VERSION 0.0.1 DESCRIPTION "lib for logging" LANGUAGES C)
 include(GNUInstallDirs)
 
