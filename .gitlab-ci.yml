@@ -2,6 +2,9 @@ default:
   image: registry.gitlab.com/opusdv/liblogur/cmake
   tags: 
     - aws
+
+variable:
+  CMAKE_VERSION: 3.22
 stages:
   - build
   - upload
