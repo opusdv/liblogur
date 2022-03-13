@@ -2,8 +2,6 @@ image: registry.gitlab.com/opusdv/liblogur/cmake
 stages:
   - build
   - upload
-tags:
-   - aws
 
 build_bin_job:
   stage: build 
@@ -15,7 +13,7 @@ build_bin_job:
     - make
 build_rpm_job:
   image: centos
-  staege: build
+  stage: build
   script:
     - ls -l
 upload_job:
