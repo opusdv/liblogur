@@ -3,7 +3,7 @@ default:
   tags: 
     - aws
 
-variable:
+variables:
   CMAKE_VERSION: 3.22
 stages:
   - build
