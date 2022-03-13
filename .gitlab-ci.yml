@@ -14,12 +14,10 @@ build_bin_job:
     - cd build
     - cmake ..
     - make
-build_rpm_job:
-  image: centos
-  stage: build
-  script:
-    - ls -l
+    - cpack
+
 upload_job:
   stage: upload
+  needs: ["build_bin_job:"]
   script:
-    - cd build
+    - ls -l
