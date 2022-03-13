@@ -1,8 +1,7 @@
 image: registry.gitlab.com/opusdv/liblogur/cmake 
 stages:
   - build
-  - test
-  - deploy
+  - upload
 
 build_job:
   stage: build
@@ -13,11 +12,11 @@ build_job:
     - mkdir build
     - cd build
     - cmake ..
-    
-deploy_job:
-  stage: deploy
+    - make
+    - cpack
+upload_job:
+  stage: upload
   tags:
     - aws
   script:
-    - echo $CI_JOB_NAME
-     
+    - cd build
