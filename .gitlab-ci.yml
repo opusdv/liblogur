@@ -6,20 +6,17 @@ stages:
 build_job:
   stage: build
   tags: 
-    - aws
     - my_runner
   script:
     - echo $CI_JOB_NAME
 unit_job:
   stage: test
   tags: 
-    - aws
     - my_runner
   script:
     - echo $CI_JOB_NAME
 list_job:
   tags: 
-    - aws
     - my_runner
   stage: test
   script:
@@ -29,7 +26,6 @@ deploy_job:
   when: manual
   stage: deploy
   tags: 
-    - aws
     - my_runner
   script:
     - echo $CI_JOB_NAME
