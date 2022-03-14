@@ -2,13 +2,16 @@ default:
   image: registry.gitlab.com/opusdv/liblogur/cmake
   tags: 
     - aws
-
+  only:
+    - dev-v[0-9].[0-9].[0-9]
+    
 variables:
   CMAKE_VERSION: "3.22"
-  VERSION: "0.0.1"
 
 stages:
+  - check
   - build
+  - test
   - upload
   - release
 
@@ -21,20 +24,20 @@ build_bin_job:
     - cmake ..
     - make
     - cpack
-    - ls -l 
+    - ls -l
   artifacts:
     paths:
-      - build/liblogur-0.0.1-1-$CI_PIPELINE_ID.rpm
+      - build/liblogur-$VERSION-$CI_PIPELINE_ID.rpm
     expire_in: 1 week
 
-upload_job:
+upload_rpm_job:
   image: curlimages/curl:latest
   stage: upload
   needs: 
     - job: build_bin_job
       artifacts: true
   script:
-    - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file build/liblogur-0.0.1-1-$CI_PIPELINE_ID.rpm "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/liblogur/0.0.1/liblogur-0.0.1-1-$CI_PIPELINE_ID.rpm"'
+    - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file build/liblogur-$CI_COMMIT_BRANCH-$CI_PIPELINE_ID.rpm "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/liblogur/$CI_COMMIT_BRANCH/liblogur-$COMMIT_BRANCH-$CI_PIPELINE_ID.rpm"'
 
 release_job:
   image: registry.gitlab.com/gitlab-org/release-cli:latest
@@ -44,6 +47,8 @@ release_job:
       artifacts: true
   rules:
     - if: $CI_COMMIT_TAG
+  only:
+    - master
   script:
     - echo "CREATE RELEASE"
   release:
@@ -55,5 +60,5 @@ release_job:
       - 'm1'
     assets:
       links:
-        - name: "Lib RPM Package"
-          url: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/liblogur/0.0.1/liblogur-0.0.1-1-$CI_PIPELINE_ID.rpm"
+        - name: "liblogur-$CI_COMMIT_BRANCH.rpm"
+          url: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/liblogur/$CI_COMMIT_BRANCH/liblogur-$CI_COMMIT_BRANCH-$CI_PIPELINE_ID.rpm"
