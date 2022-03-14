@@ -1,0 +1,4 @@
+# Logur
+
+## License
+GNU GENERAL PUBLIC LICENSE
