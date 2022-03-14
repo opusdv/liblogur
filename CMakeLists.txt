@@ -1,5 +1,7 @@
-cmake_minimum_required(VERSION $ENV{CMAKE_VERSION})
-project(logur VERSION $ENV{VERSION} DESCRIPTION "lib for logging" LANGUAGES C)
+#cmake_minimum_required(VERSION $ENV{CMAKE_VERSION})
+cmake_minimum_required(VERSION 3.22) 
+#project(logur VERSION $ENV{VERSION} DESCRIPTION "lib for logging" LANGUAGES C)
+project(logur VERSION 0.0.1 DESCRIPTION "lib for logging" LANGUAGES C)
 include(GNUInstallDirs)
 
 add_library(logur SHARED src/logur.c)
@@ -7,7 +9,13 @@ add_library(logur SHARED src/logur.c)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED TRUE)
 
-set_target_properties(logur PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION 1 PUBLIC_HEADER api/logur.h)
+set_target_properties(
+	logur PROPERTIES 
+	VERSION ${PROJECT_VERSION} 
+	SOVERSION 1 
+	PUBLIC_HEADER api/logur.h
+	LIBRARY_OUTPUT_DIRECTORY "../lib"
+)
 
 target_include_directories(logur PRIVATE include)
 
@@ -15,10 +23,6 @@ target_include_directories(logur PRIVATE include)
 install(TARGETS logur
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-
-
-#install(FILES ${CMAKE_BINARY_DIR}/logur.pc
-        #    DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)
 
 
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
