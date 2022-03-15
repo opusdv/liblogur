@@ -16,6 +16,7 @@ set_target_properties(
 )
 
 target_include_directories(logur PRIVATE include)
+target_compile_options(logur PRIVATE -Wall -Wall -Wextra)
 
 
 install(TARGETS logur
