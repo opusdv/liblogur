@@ -1,5 +1,5 @@
 /****************************************************************************
- * Copyright (C) 2022 by Donatas Vaytukaytis								*
+ * Copyright (C) 2022 by Donatas Vaytukaytis                                *
  *                                                                          *
  * This file is part of Logur.                                              *
  *                                                                          *
@@ -13,19 +13,21 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          *
  *   GNU Lesser General Public License for more details.                    *
  *                                                                          *
- *   You should have received a copy of the GNU General Public				*
+ *   You should have received a copy of the GNU General Public              *
  *   License along with Box.  If not, see <http://www.gnu.org/licenses/>.   *
  ****************************************************************************/
 
-#include <stdlib.h>
-
-#include <logur.h>
-
-
-typedef struct logur_t {
-  char *log_file;
-  int log_level;
-} logur_t;
-
-logur_t *logur_init() { return (logur_t *)malloc(sizeof(logur_t)); }
-int test_func() { return 1; }
+#include <stdarg.h>
+#include <stddef.h>
+#include <setjmp.h>
+#include <cmocka.h>
+/* A test case that does nothing and succeeds. */
+static void null_test_success(void **state) {
+    (void) state; /* unused */
+}
+int main(void) {
+    const struct CMUnitTest tests[] = {
+        cmocka_unit_test(null_test_success),
+    };
+    return cmocka_run_group_tests(tests, NULL, NULL);
+}

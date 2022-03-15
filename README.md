@@ -5,9 +5,9 @@ Logur is an open source logging library
 ## Dev Stack
 1. C Language
 2. CMake
-3. cmake-format
+3. CMocka
 4. CPack
-5. GTest
+5. cmale-format
 4. Doxygen
 
 ## Code style: 
