@@ -13,6 +13,13 @@ stages:
   - upload
   - release
 
+dev_linter:
+  stage: check
+  script:
+    - echo "Start linter cmake-format LLVM Style"
+    - clang-format -i $(find . -name "*.c")
+    - clang-format -i $(find . -name "*.h")
+
 dev_build_bin_job:
   stage: build 
   script:
