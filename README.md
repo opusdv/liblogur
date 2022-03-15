@@ -10,9 +10,11 @@ Logur is an open source logging library
 5. GTest
 4. Doxygen
 
-## Code style: LLVM
+## Code style: 
+LLVM
 
-## Programming paradigm: Object-oriented programming elements
+## Programming paradigm:
+ Object-oriented programming elements
 
 ## License
 ![alt text](https://i.ibb.co/pxYJB07/gplv3-with-text-136x68.png)
