@@ -21,14 +21,16 @@ dev_build_bin_job:
     - cd build
     - cmake ..
     - make
-    - cpack
     - ls -l
   only:                                                                                                       
     - dev-v[0-9].[0-9].[0-9] 
-  artifacts:
-    paths:
-      - build/liblogur-$VERSION-$CI_PIPELINE_ID.rpm
-    expire_in: 1 week
+
+dev_unit_testing_job:
+  stage: test
+  script:
+    - ctest --rerun-failed --output-on-failure
+  only:
+    - dev-v[0-9].[0-9].[0-9]
 
 dev_upload_rpm_job:
   image: curlimages/curl:latest
