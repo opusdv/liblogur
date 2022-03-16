@@ -20,7 +20,7 @@ set_target_properties(
 	VERSION ${PROJECT_VERSION} 
 	SOVERSION 1 
 	PUBLIC_HEADER ../api/logur.h
-	LIBRARY_OUTPUT_DIRECTORY "../lib"
+	LIBRARY_OUTPUT_DIRECTORY "lib"
 )
 
 target_include_directories(logur PRIVATE ../include)
