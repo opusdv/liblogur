@@ -50,9 +50,9 @@ dev_build_job:
     - mkdir build
     - cd build
     - cmake ../cmake
+    - cd ..
     - build-wrapper/build-wrapper-linux-x86-64 --out-dir bw-output build/make
-  only:                                                                                                       
-    - merge_requests                                                                                          
+  only:
     - main
 sonarcloud-check:
   stage: .post
