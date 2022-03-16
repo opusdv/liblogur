@@ -52,7 +52,7 @@ dev_build_job:
     - cmake ../cmake
     - ls -l
     - cd ../
-    - build-wrapper/build-wrapper-linux-x86-64 --out-dir bw-output build/make
+    - build-wrapper/build-wrapper-linux-x86-64 --out-dir bw-output make -C build
   only:
     - main
 sonarcloud-check:
