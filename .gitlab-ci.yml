@@ -86,7 +86,7 @@ dev_upload_rpm_job:
   image: curlimages/curl:latest
   stage: upload
   needs: 
-    - job: dev_build_bin_job
+    - job: dev_build_job
       artifacts: true
   script:
     - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file build/liblogur-$CI_COMMIT_BRANCH-$CI_PIPELINE_ID.rpm "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/liblogur/$CI_COMMIT_BRANCH/liblogur-$COMMIT_BRANCH-$CI_PIPELINE_ID.rpm"'
@@ -97,7 +97,7 @@ release_job:
   image: registry.gitlab.com/gitlab-org/release-cli:latest
   stage: release
   needs:
-    - job: dev_build_bin_job
+    - job: dev_build_job
       artifacts: true
   rules:
     - if: $CI_COMMIT_TAG
