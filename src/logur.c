@@ -1,5 +1,6 @@
 /****************************************************************************
- * Copyright (C) 2022 by Donatas Vaytukaytis								*
+ * Copyright (C) 2022 by Donatas Vaytukaytis
+ **
  *                                                                          *
  * This file is part of Logur.                                              *
  *                                                                          *
@@ -13,14 +14,13 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          *
  *   GNU Lesser General Public License for more details.                    *
  *                                                                          *
- *   You should have received a copy of the GNU General Public				*
- *   License along with Box.  If not, see <http://www.gnu.org/licenses/>.   *
+ *   You should have received a copy of the GNU General Public
+ ** License along with Box.  If not, see <http://www.gnu.org/licenses/>.   *
  ****************************************************************************/
 
 #include <stdlib.h>
 
 #include <logur.h>
-
 
 typedef struct logur_t {
   char *log_file;

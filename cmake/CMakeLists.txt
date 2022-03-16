@@ -24,6 +24,8 @@ set_target_properties(
 )
 
 target_include_directories(logur PRIVATE ../include)
+target_include_directories(logur_test PRIVATE ../include)
+
 target_compile_options(logur PRIVATE -Wall -Wall -Wextra)
 
 
@@ -31,9 +33,9 @@ install(TARGETS logur
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-
 include(FetchCMocka.cmake)
 target_link_libraries(logur_test PRIVATE cmocka-static)
+target_link_libraries(logur_test PRIVATE logur)
 
 enable_testing()
 add_test(NAME logur_test COMMAND logur_test)
