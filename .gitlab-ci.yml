@@ -46,6 +46,7 @@ dev_build_job:
       - build/
   script:
     - echo $CI_JOB_NAME
+    - mkdir build
     - ls -l
     - cd build/
     - cmake ../cmake
