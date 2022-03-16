@@ -43,12 +43,15 @@ dev_build_job:
       - build-wrapper/
       - sonar-scanner/
       - bw-output/
+      - build/
   script:
     - echo $CI_JOB_NAME
     - ls -l
-    - cmake ./cmake
+    - cd build/
+    - cmake ../cmake
     - ls -l
-    - build-wrapper/build-wrapper-linux-x86-64 --out-dir bw-output make
+    - cd ../
+    - build-wrapper/build-wrapper-linux-x86-64 --out-dir bw-output build/make
   only:
     - main
 sonarcloud-check:
@@ -67,8 +70,13 @@ sonarcloud-check:
 
 dev_unit_testing_job:
   stage: test
-  script:
-    - ctest --rerun-failed --output-on-failure
+  cache:
+    policy: pull
+    key: "${CI_COMMIT_SHORT_SHA}"
+    paths:
+      - build/
+  script:                                                                                                     
+    - ctest --rerun-failed --output-on-failure 
   only:
     - main
     - dev-v[0-9].[0-9].[0-9]
