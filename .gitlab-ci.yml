@@ -47,11 +47,9 @@ dev_build_job:
   script:
     - echo $CI_JOB_NAME
     - ls -l
-    - mkdir build
-    - cd build
     - cmake ../cmake
-    - cd ..
-    - build-wrapper/build-wrapper-linux-x86-64 --out-dir bw-output build/make
+    - ls -l
+    - build-wrapper/build-wrapper-linux-x86-64 --out-dir bw-output make
   only:
     - main
 sonarcloud-check:
