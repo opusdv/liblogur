@@ -47,7 +47,7 @@ dev_build_job:
   script:
     - echo $CI_JOB_NAME
     - ls -l
-    - cmake ../cmake
+    - cmake ./cmake
     - ls -l
     - build-wrapper/build-wrapper-linux-x86-64 --out-dir bw-output make
   only:
