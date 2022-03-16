@@ -47,9 +47,10 @@ dev_build_job:
   script:
     - echo $CI_JOB_NAME
     - ls -l
-    - cd cmake
-    - cmake .
-    - build-wrapper/build-wrapper-linux-x86-64 --out-dir bw-output cmake/cmake --build .  --target logur
+    - mkdir build
+    - cd build
+    - cmake ../cmake
+    - build-wrapper/build-wrapper-linux-x86-64 --out-dir bw-output build/make
   only:                                                                                                       
     - merge_requests                                                                                          
     - main
