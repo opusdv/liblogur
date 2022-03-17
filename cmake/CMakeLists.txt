@@ -8,9 +8,6 @@ add_library(logur SHARED
 	../src/logur.c
 )
 
-add_executable(logur_test
-	../src/logur_test.c
-)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED TRUE)
@@ -36,6 +33,9 @@ install(TARGETS logur
 
 
 # CTest
+add_executable(logur_test                                                                                     
+    ../tests/logur_test.c                                                                                       
+) 
 include(FetchCMocka.cmake)
 set_target_properties(
 	logur_test PROPERTIES
