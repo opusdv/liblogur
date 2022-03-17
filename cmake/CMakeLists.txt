@@ -1,7 +1,7 @@
-#cmake_minimum_required(VERSION $ENV{CMAKE_VERSION})
-cmake_minimum_required(VERSION 3.22)
-#project(logur VERSION $ENV{VERSION} DESCRIPTION "lib for logging" LANGUAGES C)
-project(logur VERSION 0.0.1 DESCRIPTION "lib for logging" LANGUAGES C)
+cmake_minimum_required(VERSION $ENV{CMAKE_VERSION})
+#cmake_minimum_required(VERSION 3.22)
+project(logur VERSION $ENV{VERSION} DESCRIPTION "lib for logging" LANGUAGES C)
+#project(logur VERSION 0.0.1 DESCRIPTION "lib for logging" LANGUAGES C)
 include(GNUInstallDirs)
 
 add_library(logur SHARED 
