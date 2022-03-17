@@ -87,7 +87,7 @@ dev_build_rpm_job:
   script:
     - ls -l
     - cd build
-    - cpack
+    - make package
   only:
     - main
 
