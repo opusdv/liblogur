@@ -22,12 +22,7 @@
 
 #define PERROR_IF(conf, msg) if (cond) {perror(msg); exit(EXIT_FAILURE);}
 
-typedef enum {
-	DEBUG = 0,
-	INFO,
-	WARNING,
-	ERROR
-} log_level_t;
+typedef enum { DEBUG = 0, INFO, WARNING, ERROR } log_level_t;
 
 struct logur_t;
 

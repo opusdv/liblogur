@@ -20,27 +20,59 @@ set_target_properties(
 	VERSION ${PROJECT_VERSION} 
 	SOVERSION 1 
 	PUBLIC_HEADER ../api/logur.h
-	LIBRARY_OUTPUT_DIRECTORY "lib"
+	LIBRARY_OUTPUT_DIRECTORY "../lib"
 )
 
 target_include_directories(logur PRIVATE ../include)
-target_include_directories(logur_test PRIVATE ../include)
-
-target_compile_options(logur PRIVATE -Wall -Wall -Wextra)
-
+target_compile_options(logur PRIVATE -Wall 
+	-Wextra
+	-pedantic 
+	-fsanitize=undefined
+)
 
 install(TARGETS logur
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
+
+# CTest
 include(FetchCMocka.cmake)
+set_target_properties(
+	logur_test PROPERTIES
+	RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/..tests"
+)
+target_include_directories(logur_test PRIVATE ../include)                                                     
+target_compile_options(logur_test PRIVATE  -Wall                                                              
+    -Wextra                                                                                                   
+    -pedantic                                                                                                 
+    -fsanitize=undefined                                                                                      
+) 
 target_link_libraries(logur_test PRIVATE cmocka-static)
 target_link_libraries(logur_test PRIVATE logur)
-
 enable_testing()
 add_test(NAME logur_test COMMAND logur_test)
 
 
+# Doxygen
+option(BUILD_DOC "Build documentation" ON)
+find_package(Doxygen)
+if (DOXYGEN_FOUND)
+	set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/../docs/Doxyfile.in)
+	set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+
+	configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
+    message("Doxygen build started")
+
+	add_custom_target( doc_doxygen ALL
+        COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+        COMMENT "Generating API documentation with Doxygen"
+        VERBATIM )
+else(DOXYGEN_FOUND)
+	message("Doxygen need to be installed to generate the doxygen documentation")
+endif (DOXYGEN_FOUND)
+
+# CPack
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 set(CPACK_GENERATOR "RPM")
 set(CPACK_PACKAGE_NAME "liblogur")

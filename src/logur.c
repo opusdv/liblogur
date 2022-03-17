@@ -22,6 +22,13 @@
 
 #include <logur.h>
 
+/** @struct logur_t
+ *  @brief This structure blah blah blah...
+ *  @var logur_t::log_file
+ *  Member 'log_file' contains...
+ *  @var logur_t::log_level
+ *  Member 'log_level' contains...
+ */
 typedef struct logur_t {
   char *log_file;
   int log_level;
