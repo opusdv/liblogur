@@ -73,7 +73,7 @@ dev_unit_testing_job:
     - ls -l                                                                                                   
     - cd build                                                                                                
     - ls -l                                                                                                   
-    - ctest --rerun-failed --output-on-failure
+    - make test
   only:                                                                                                       
     - main
 
