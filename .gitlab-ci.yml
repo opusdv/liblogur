@@ -84,10 +84,10 @@ dev_build_rpm_job:
     key: "${CI_COMMIT_SHORT_SHA}"
     paths:                                                                                                    
       - build/
-    script:
-      - ls -l
-      - cd build
-      - cpack
+  script:
+    - ls -l
+    - cd build
+    - cpack
   only:
     - main
 
