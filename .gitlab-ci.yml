@@ -11,8 +11,9 @@ variables:
 stages:
   - validate
   - build
-  - package
   - test
+  - package
+  - dock
   - upload
 
 dev_clang-format_job:
@@ -89,6 +90,20 @@ dev_build_rpm_job:
     - ls -l
     - cd build
     - make package
+  only:
+    - main
+
+dev_docs_job:
+  stage: docs
+  cache:                                                                                                      
+    policy: pull-push                                                                                         
+    key: "${CI_COMMIT_SHORT_SHA}"                                                                             
+    paths:                                                                                                    
+      - build/
+  script:
+    - ls -l
+    - cd build
+    - make docs
   only:
     - main
 
