@@ -62,6 +62,7 @@ dev_build_job:
     - ls -l
     - cd ../
     - build-wrapper/build-wrapper-linux-x86-64 --out-dir bw-output make -C build
+    - ls -l
   only:
     - main
 
