@@ -32,6 +32,7 @@
 typedef struct logur_t {
   char *log_file;
   int log_level;
+  int test_val;
 } logur_t;
 
 logur_t *logur_init() { return (logur_t *)malloc(sizeof(logur_t)); }
