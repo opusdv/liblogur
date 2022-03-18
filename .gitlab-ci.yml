@@ -5,7 +5,7 @@ default:
   
 variables:
   CMAKE_VERSION: "3.22"
-  SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+  SONAR_USER_HOME: "${CI_PROJECT_DIR}/src/.sonar"
   GIT_DEPTH: "0"
   VERSION: "0.0.4"
 
@@ -60,6 +60,21 @@ dev_unit_testing_job:
   only:                                                                                                       
     - main
 
+sonarcloud-check:                                                                                             
+  image:                                                                                                      
+    name: sonarsource/sonar-scanner-cli:latest                                                                
+    entrypoint: [""]                                                                                          
+  stage: test
+  cache:                                                                                                      
+    policy: pull-push                                                                                         
+    key: "${CI_COMMIT_SHORT_SHA}"                                                                             
+    paths:                                                                                                    
+      - .sonar/cache                                                                                          
+  script:                                                                                                     
+    - sonar-scanner                                                                                           
+  only:                                                                                                       
+    - main 
+
 dev_build_rpm_job:
   stage: package
   cache:
@@ -88,17 +103,3 @@ dev_doc_job:
   only:
     - main
 
-sonarcloud-check:
-  image:
-    name: sonarsource/sonar-scanner-cli:latest
-    entrypoint: [""]
-  stage: .post
-  cache:
-    policy: pull-push
-    key: "${CI_COMMIT_SHORT_SHA}"
-    paths:
-      - .sonar/cache
-  script:
-    - sonar-scanner
-  only:
-    - main
