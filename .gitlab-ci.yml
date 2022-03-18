@@ -73,6 +73,7 @@ dev_unit_testing_job:
     policy: pull                                                                                              
     key: "${CI_COMMIT_SHORT_SHA}"                                                                             
     paths:                                                                                                    
+      - build-wrapper/                                                                                        
       - build/                                                                                                
       - lib/
       - sonar-scanner/
@@ -92,6 +93,7 @@ dev_build_rpm_job:
     paths:                                                                                                    
       - build/
       - sonar-scanner/
+      - build-wrapper/                                                                                        
   script:
     - ls -l
     - cd build
@@ -107,6 +109,7 @@ dev_doc_job:
     paths:                                                                                                    
       - build/
       - sonar-scanner/
+      - build-wrapper/
   script:
     - ls -l
     - cd build
