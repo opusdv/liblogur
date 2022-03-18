@@ -95,6 +95,7 @@ sonarcloud-check:
       - build-wrapper/                                                                                        
       - sonar-scanner/
       - bw-output/
+      - build/
   script:                                                                                                     
     - sonar-scanner/bin/sonar-scanner -Dsonar.host.url="${SONAR_HOST_URL}" -Dsonar.token="${SONAR_TOKEN}" -Dsonar.cfamily.build-wrapper-output=bw-output
   only:                                                                                                       
