@@ -51,6 +51,7 @@ target_link_libraries(logur_test PRIVATE cmocka-static)
 target_link_libraries(logur_test PRIVATE logur)
 enable_testing()
 add_test(NAME logur_test COMMAND logur_test)
+set(ENV{CTEST_OUTPUT_ON_FAILURE} 1)
 
 
 # Doxygen
