@@ -9,10 +9,16 @@ variables:
   GIT_DEPTH: "0"
 
 stages:
+  - cleanup
   - validate
   - build
   - test
   - upload
+
+dev_cleanup_job:
+  stage: cleanup
+  script:
+    docker image prune -a
 
 dev_clang-format_job:
   stage: validate
