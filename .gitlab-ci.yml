@@ -9,14 +9,13 @@ variables:
   GIT_DEPTH: "0"
 
 stages:
-  - cleanup
   - validate
   - build
   - test
   - upload
 
 dev_cleanup_job:
-  stage: cleanup
+  stage: .pre
   script:
     docker image prune -a
 
