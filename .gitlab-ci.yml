@@ -53,6 +53,7 @@ dev_build_job:
       - sonar-scanner/
       - bw-output/
       - build/
+      - lib/
   script:
     - echo $CI_JOB_NAME
     - mkdir build
@@ -73,6 +74,7 @@ dev_unit_testing_job:
     key: "${CI_COMMIT_SHORT_SHA}"                                                                             
     paths:                                                                                                    
       - build/                                                                                                
+      - lib/
   script:                                                                                                     
     - ls -l                                                                                                   
     - cd build                                                                                                
