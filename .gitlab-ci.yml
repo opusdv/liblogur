@@ -11,6 +11,7 @@ variables:
 stages:
   - validate
   - build
+  - package
   - test
   - upload
 
@@ -78,7 +79,7 @@ dev_unit_testing_job:
     - main
 
 dev_build_rpm_job:
-  stage: build
+  stage: package
   cache:
     policy: pull-push
     key: "${CI_COMMIT_SHORT_SHA}"
