@@ -24,34 +24,12 @@ dev_clang-format_job:
   only:
     - main
 
-get-sonar-binaries:
-  stage: .pre
-  cache:
-    policy: push
-    key: "${CI_COMMIT_SHORT_SHA}"
-    paths:
-      - build-wrapper/
-      - sonar-scanner/
-  script:
-    # Download sonar-scanner
-    - curl -sSLo ./sonar-scanner.zip 'https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip'
-    - unzip -o sonar-scanner.zip
-    - mv sonar-scanner-4.7.0.2747-linux sonar-scanner
-    # Download build-wrapper
-    - curl -sSLo ./build-wrapper-linux-x86.zip "${SONAR_HOST_URL}/static/cpp/build-wrapper-linux-x86.zip"
-    - unzip -oj build-wrapper-linux-x86.zip -d ./build-wrapper
-  only:
-    - main
-
 dev_build_job:
   stage: build
   cache:
     policy: pull-push
     key: "${CI_COMMIT_SHORT_SHA}"
     paths:
-      - build-wrapper/
-      - sonar-scanner/
-      - bw-output/
       - build/
       - lib/
   script:
@@ -61,8 +39,7 @@ dev_build_job:
     - cd build/
     - cmake ../cmake
     - ls -l
-    - cd ../
-    - build-wrapper/build-wrapper-linux-x86-64 --out-dir bw-output make -C build
+    - make
     - ls -l
   only:
     - main
@@ -73,14 +50,12 @@ dev_unit_testing_job:
     policy: pull                                                                                              
     key: "${CI_COMMIT_SHORT_SHA}"                                                                             
     paths:                                                                                                    
-      - build-wrapper/                                                                                        
-      - build/                                                                                                
+      - build/
       - lib/
-      - sonar-scanner/
   script:                                                                                                     
     - ls -l                                                                                                   
     - cd build                                                                                                
-    - ls -l                                                                                                   
+    - ls -l
     - make test
   only:                                                                                                       
     - main
@@ -92,8 +67,6 @@ dev_build_rpm_job:
     key: "${CI_COMMIT_SHORT_SHA}"
     paths:                                                                                                    
       - build/
-      - sonar-scanner/
-      - build-wrapper/                                                                                        
   script:
     - ls -l
     - cd build
@@ -108,8 +81,6 @@ dev_doc_job:
     key: "${CI_COMMIT_SHORT_SHA}"                                                                             
     paths:                                                                                                    
       - build/
-      - sonar-scanner/
-      - build-wrapper/
   script:
     - ls -l
     - cd build
@@ -118,16 +89,16 @@ dev_doc_job:
     - main
 
 sonarcloud-check:
+  image:
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
   stage: .post
   cache:
-    policy: pull
+    policy: pull-push
     key: "${CI_COMMIT_SHORT_SHA}"
     paths:
-      - build-wrapper/
-      - sonar-scanner/
-      - bw-output/
+      - .sonar/cache
   script:
-    - sonar-scanner/bin/sonar-scanner -Dsonar.host.url="${SONAR_HOST_URL}" -Dsonar.token="${SONAR_TOKEN}" -Dsonar.cfamily.build-wrapper-output=bw-output
+    - sonar-scanner
   only:
-    - main                                       
-
+    - main
