@@ -86,10 +86,7 @@ dev_unit_testing_job:
   only:                                                                                                       
     - main
 
-sonarcloud-check:                                                                                             
-  image:                                                                                                      
-    name: sonarsource/sonar-scanner-cli:latest                                                                
-    entrypoint: [""]                                                                                          
+sonarcloud-check:
   stage: test
   cache:                                                                                                      
     policy: pull-push                                                                                         
