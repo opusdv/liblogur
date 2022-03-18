@@ -17,6 +17,25 @@ stages:
   - dock
   - upload
 
+get-sonar-binaries:
+  stage: .pre
+  cache:
+    policy: push
+    key: "${CI_COMMIT_SHORT_SHA}"
+    paths:
+      - build-wrapper/
+      - sonar-scanner/
+  script:
+    # Download sonar-scanner
+    - curl -sSLo ./sonar-scanner.zip 'https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip'
+    - unzip -o sonar-scanner.zip
+    - mv sonar-scanner-4.7.0.2747-linux sonar-scanner
+    # Download build-wrapper
+    - curl -sSLo ./build-wrapper-linux-x86.zip "${SONAR_HOST_URL}/static/cpp/build-wrapper-linux-x86.zip"
+    - unzip -oj build-wrapper-linux-x86.zip -d ./build-wrapper
+  only:
+    - main
+
 dev_clang-format_job:
   stage: validate
   script:
@@ -32,6 +51,9 @@ dev_build_job:
     paths:
       - build/
       - lib/
+      - build-wrapper/                                                                                        
+      - sonar-scanner/
+      - bw-output/
   script:
     - echo $CI_JOB_NAME
     - mkdir build
@@ -39,7 +61,8 @@ dev_build_job:
     - cd build/
     - cmake ../cmake
     - ls -l
-    - make
+    - cd ../
+    - build-wrapper/build-wrapper-linux-x86-64 --out-dir bw-output make -C build
     - ls -l
   only:
     - main
@@ -52,6 +75,9 @@ dev_unit_testing_job:
     paths:                                                                                                    
       - build/
       - lib/
+      - build-wrapper/                                                                                       
+      - sonar-scanner/   
+      - bw-output/
   script:                                                                                                     
     - ls -l                                                                                                   
     - cd build                                                                                                
@@ -69,9 +95,11 @@ sonarcloud-check:
     policy: pull-push                                                                                         
     key: "${CI_COMMIT_SHORT_SHA}"                                                                             
     paths:                                                                                                    
-      - .sonar/cache                                                                                          
+      - build-wrapper/                                                                                        
+      - sonar-scanner/
+      - bw-output/
   script:                                                                                                     
-    - sonar-scanner                                                                                           
+    - sonar-scanner/bin/sonar-scanner -Dsonar.host.url="${SONAR_HOST_URL}" -Dsonar.token="${SONAR_TOKEN}" -Dsonar.cfamily.build-wrapper-output=bw-output
   only:                                                                                                       
     - main 
 
