@@ -75,6 +75,7 @@ dev_unit_testing_job:
     paths:                                                                                                    
       - build/                                                                                                
       - lib/
+      - sonar-scanner/
   script:                                                                                                     
     - ls -l                                                                                                   
     - cd build                                                                                                
@@ -90,6 +91,7 @@ dev_build_rpm_job:
     key: "${CI_COMMIT_SHORT_SHA}"
     paths:                                                                                                    
       - build/
+      - sonar-scanner/
   script:
     - ls -l
     - cd build
@@ -104,6 +106,7 @@ dev_doc_job:
     key: "${CI_COMMIT_SHORT_SHA}"                                                                             
     paths:                                                                                                    
       - build/
+      - sonar-scanner/
   script:
     - ls -l
     - cd build
