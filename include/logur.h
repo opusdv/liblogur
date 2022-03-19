@@ -20,8 +20,11 @@
 #ifndef _LOGUR_H_
 #define _LOGUR_H_
 
-#define PERROR_IF(conf, msg)                                                   \
-  if (cond) {                                                                  \
+#include <stdlib.h>
+#include <stdio.h>
+
+#define PERROR_IF(cond, msg)                                                   \
+  if (!cond) {                                                                  \
     perror(msg);                                                               \
     exit(EXIT_FAILURE);                                                        \
   }
@@ -30,10 +33,11 @@ typedef enum { DEBUG = 0, INFO, WARNING, ERROR } log_level_t;
 
 struct logur_t;
 
-struct logur_t *logur_init();
-void do_log();
-void logur_fini();
+extern struct logur_t *logur_init();
 
-int test_func();
+extern void logur_ctor(struct logur_t*);
+                                 
+extern void logur_set_log_file(struct logur_t* logur, const char* file_name);
+extern void logur_set_log_level(log_level_t);
 
 #endif

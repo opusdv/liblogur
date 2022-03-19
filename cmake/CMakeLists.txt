@@ -1,16 +1,16 @@
-cmake_minimum_required(VERSION $ENV{CMAKE_VERSION})
-#cmake_minimum_required(VERSION 3.22)
-project(logur VERSION $ENV{VERSION} DESCRIPTION "lib for logging" LANGUAGES C)
-#project(logur VERSION 0.0.1 DESCRIPTION "lib for logging" LANGUAGES C)
+#cmake_minimum_required(VERSION $ENV{CMAKE_VERSION})
+cmake_minimum_required(VERSION 3.22)
+#project(logur VERSION $ENV{VERSION} DESCRIPTION "lib for logging" LANGUAGES C)
+project(logur VERSION 0.0.1 DESCRIPTION "lib for logging" LANGUAGES C)
 include(GNUInstallDirs)
 
 add_library(logur SHARED 
 	../src/logur.c
 )
 
-
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED TRUE)
+set(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -fsanitize=leak -fsanitize=undefined -g")
 
 set_target_properties(
 	logur PROPERTIES 
@@ -21,16 +21,23 @@ set_target_properties(
 )
 
 target_include_directories(logur PRIVATE ../include)
-target_compile_options(logur PRIVATE -Wall 
-	-Wextra
-	-pedantic 
-	-fsanitize=undefined
-)
+target_compile_options(logur PRIVATE -Wall -Wextra -pedantic -Werror)
 
 install(TARGETS logur
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
+# Example
+add_executable(main	
+		../examples/main.c
+)
+set_target_properties(                                                                                        
+  main PROPERTIES                                                                                       
+  RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}" 
+)
+target_include_directories(main PRIVATE ../include)
+target_link_libraries(main PRIVATE logur)
+target_compile_options(main PRIVATE -Wall -Wextra -pedantic -Werror)
 
 # CTest
 add_executable(logur_test                                                                                     
@@ -41,14 +48,10 @@ set_target_properties(
 	logur_test PROPERTIES
 	RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/..tests"
 )
-target_include_directories(logur_test PRIVATE ../include)                                                     
-target_compile_options(logur_test PRIVATE  -Wall                                                              
-    -Wextra                                                                                                   
-    -pedantic                                                                                                 
-    -fsanitize=undefined                                                                                      
-) 
+target_include_directories(logur_test PRIVATE ../include)
 target_link_libraries(logur_test PRIVATE cmocka-static)
 target_link_libraries(logur_test PRIVATE logur)
+target_compile_options(logur_test PRIVATE -Wall -Wextra -pedantic -Werror)
 enable_testing()
 add_test(NAME logur_test COMMAND logur_test)
 set(ENV{CTEST_OUTPUT_ON_FAILURE} 1)

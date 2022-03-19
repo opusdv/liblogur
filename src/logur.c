@@ -19,6 +19,8 @@
  ****************************************************************************/
 
 #include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 #include <logur.h>
 
@@ -29,11 +31,27 @@
  *  @var logur_t::log_level
  *  Member 'log_level' contains...
  */
+
 typedef struct logur_t {
-  char *log_file;
-  int log_level;
-  int test_val;
+  int log_file;
+  log_level_t log_level;
 } logur_t;
 
 logur_t *logur_init() { return (logur_t *)malloc(sizeof(logur_t)); }
-int test_func() { return 1; }
+
+void logur_ctor(logur_t* logur) {
+	logur->log_file = STDOUT_FILENO;
+	logur->log_level = INFO;
+}
+
+int __open_file(const char *file_name) {
+  int fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+  PERROR_IF(fd, "open file");
+
+  return fd;
+}
+
+void logur_set_log_file(logur_t *logur, const char *file_name) {
+	int fd = __open_file(file_name);
+	logur->log_file = fd;
+}
