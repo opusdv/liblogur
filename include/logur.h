@@ -20,11 +20,11 @@
 #ifndef _LOGUR_H_
 #define _LOGUR_H_
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #define PERROR_IF(cond, msg)                                                   \
-  if (!cond) {                                                                  \
+  if (!cond) {                                                                 \
     perror(msg);                                                               \
     exit(EXIT_FAILURE);                                                        \
   }
@@ -36,8 +36,8 @@ struct logur_t;
 extern struct logur_t *logur_init();
 
 extern void logur_ctor(struct logur_t*);
-                                 
-extern void logur_set_log_file(struct logur_t* logur, const char* file_name);
+
+extern void logur_set_log_file(struct logur_t *logur, const char *file_name);
 extern void logur_set_log_level(log_level_t);
 
 #endif

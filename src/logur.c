@@ -39,9 +39,9 @@ typedef struct logur_t {
 
 logur_t *logur_init() { return (logur_t *)malloc(sizeof(logur_t)); }
 
-void logur_ctor(logur_t* logur) {
-	logur->log_file = STDOUT_FILENO;
-	logur->log_level = INFO;
+void logur_ctor(logur_t *logur) {
+  logur->log_file = STDOUT_FILENO;
+  logur->log_level = INFO;
 }
 
 int __open_file(const char *file_name) {
@@ -52,6 +52,6 @@ int __open_file(const char *file_name) {
 }
 
 void logur_set_log_file(logur_t *logur, const char *file_name) {
-	int fd = __open_file(file_name);
-	logur->log_file = fd;
+  int fd = __open_file(file_name);
+  logur->log_file = fd;
 }
