@@ -28,6 +28,7 @@
 static void test_logur_init() {
   struct logur_t *logur = logur_init();
   assert_non_null(logur);
+  free(logur);
 }
 int main(void) {
   const struct CMUnitTest tests[] = {cmocka_unit_test(test_logur_init)
