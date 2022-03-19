@@ -35,7 +35,7 @@ struct logur_t;
 
 extern struct logur_t *logur_init();
 
-extern void logur_ctor(struct logur_t*);
+extern void logur_ctor(struct logur_t *);
 
 extern void logur_set_log_file(struct logur_t *logur, const char *file_name);
 extern void logur_set_log_level(log_level_t);
