@@ -37,6 +37,12 @@ typedef struct logur_t {
   log_level_t log_level;
 } logur_t;
 
+typedef struct logur_log_fmt_t {
+  char *func;
+  char *file;
+  char *line;
+} logur_log_fmt_t ;
+
 logur_t *logur_init() { return (logur_t *)malloc(sizeof(logur_t)); }
 
 void logur_ctor(logur_t *logur) {
@@ -55,3 +61,9 @@ void logur_set_log_file(logur_t *logur, const char *file_name) {
   int fd = __open_file(file_name);
   logur->log_file = fd;
 }
+
+void logur_set_log_level(logur_t *logur, log_level_t log_level) {
+  logur->log_level = log_level;
+}
+
+void logur_dtor(logur_t *logur) { free(logur); }
