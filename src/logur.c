@@ -51,7 +51,7 @@ void logur_ctor(logur_t *logur) {
 }
 
 int __open_file(const char *file_name) {
-  int fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+  int fd = open(file_name, O_WRONLY | O_CREAT, S_IRWXU | S_IRWXG);
   PERROR_IF(fd, "open file");
 
   return fd;
