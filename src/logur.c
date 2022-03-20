@@ -32,18 +32,29 @@
  *  Member 'log_level' contains...
  */
 
+typedef struct logur_log_fmt_t {
+  char *func_name;
+  char *file_name;
+  int line;
+  char *time;
+  char *date;
+  char *timestamp;
+	char* msg;
+	int pid;
+	int tid;
+} logur_log_fmt_t;
+
 typedef struct logur_t {
+  logur_log_fmt_t log_fmt;
   int log_file;
   log_level_t log_level;
 } logur_t;
 
-typedef struct logur_log_fmt_t {
-  char *func;
-  char *file;
-  char *line;
-} logur_log_fmt_t;
-
-logur_t *logur_init() { return (logur_t *)malloc(sizeof(logur_t)); }
+logur_t *logur_init() {
+  logur_t *logur = (logur_t *)malloc(sizeof(logur_t));
+  PERROR_IF(logur, "logur malloc");
+  return logur;
+}
 
 void logur_ctor(logur_t *logur) {
   logur->log_file = STDOUT_FILENO;

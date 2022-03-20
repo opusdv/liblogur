@@ -41,7 +41,7 @@ extern void logur_dtor(struct logur_t *);
 
 extern void logur_set_log_file(struct logur_t *logur, const char *file_name);
 extern void logur_set_log_level(struct logur_t *logur, log_level_t);
-extern void logur_do_log();
+extern void logur_log(struct logur_t* logur, const char* msg,  ...);
 
 #define DEBUG(...) do_log()
 #define INFO(...) do_log()
