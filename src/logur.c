@@ -41,7 +41,7 @@ typedef struct logur_log_fmt_t {
   char *func;
   char *file;
   char *line;
-} logur_log_fmt_t ;
+} logur_log_fmt_t;
 
 logur_t *logur_init() { return (logur_t *)malloc(sizeof(logur_t)); }
 

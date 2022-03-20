@@ -32,6 +32,7 @@
 typedef enum { DEBUG = 0, INFO, WARNING, ERROR } log_level_t;
 
 struct logur_t;
+struct logur_log_fmt_t;
 
 extern struct logur_t *logur_init();
 
@@ -39,7 +40,11 @@ extern void logur_ctor(struct logur_t *);
 extern void logur_dtor(struct logur_t *);
 
 extern void logur_set_log_file(struct logur_t *logur, const char *file_name);
-extern void logur_set_log_level(struct logur_t* logur, log_level_t);
+extern void logur_set_log_level(struct logur_t *logur, log_level_t);
 extern void logur_do_log();
 
+#define DEBUG(...) do_log()
+#define INFO(...) do_log()
+#define ERROR(...) do_log()
+#define WARNING(...) do_log()
 #endif
