@@ -39,9 +39,9 @@ typedef struct logur_log_fmt_t {
   char *time;
   char *date;
   char *timestamp;
-	char* msg;
-	int pid;
-	int tid;
+  char *msg;
+  int pid;
+  int tid;
 } logur_log_fmt_t;
 
 typedef struct logur_t {
