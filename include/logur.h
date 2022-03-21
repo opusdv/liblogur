@@ -20,6 +20,7 @@
 #ifndef _LOGUR_H_
 #define _LOGUR_H_
 
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -30,21 +31,27 @@
   }
 
 typedef enum { DEBUG = 0, INFO, WARNING, ERROR } log_level_t;
-
 struct logur_t;
 struct logur_log_fmt_t;
 
 extern struct logur_t *logur_init();
+extern struct logur_log_fmt_t *logur_log_fmt_init();
 
-extern void logur_ctor(struct logur_t *);
+extern void logur_ctor(struct logur_t *, struct logur_log_fmt_t *);
+extern void logur_log_fmt_ctor(struct logur_log_fmt_t *);
 extern void logur_dtor(struct logur_t *);
+extern void logur_log_fmt_dtor(struct logur_log_fmt_t *);
 
 extern void logur_set_log_file(struct logur_t *logur, const char *file_name);
 extern void logur_set_log_level(struct logur_t *logur, log_level_t);
-extern void logur_log(struct logur_t *logur, const char *msg, ...);
+extern int logur_get_log_level(struct logur_t *logur);
 
-#define DEBUG(...) do_log()
-#define INFO(...) do_log()
-#define ERROR(...) do_log()
-#define WARNING(...) do_log()
+void logur_log(struct logur_t *logur, const char *msg, ...)
+    __attribute__((format(printf, 2, 3)));
+
+#define DEBUG(...) logur_log(logur, __VA_ARGS__)
+#define INFO(...) lour_log(logur, __VA_ARGS__)
+#define ERROR(...) logur_log(logur, __VA_ARGS__)
+#define WARNING(...) logur_log(logur, __VA_ARGS__)
+
 #endif

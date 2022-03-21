@@ -6,6 +6,7 @@ include(GNUInstallDirs)
 
 add_library(logur SHARED 
 	../src/logur.c
+	../src/logur_log.c
 )
 
 set(CMAKE_C_STANDARD 11)
