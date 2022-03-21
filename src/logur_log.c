@@ -27,6 +27,7 @@ void logur_log(struct logur_t *logur, const char *msg, ...) {
   int log_level = logur_get_log_level(logur);
   int str_len = strlen(msg);
   char *buffer = (char *)malloc(str_len + 1);
+	PERROR_IF(buffer, "buffer malloc");
 
   va_list vl;
   va_start(vl, msg);
