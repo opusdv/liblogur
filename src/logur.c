@@ -20,6 +20,8 @@
 
 #include <fcntl.h>
 #include <stdlib.h>
+#include <string.h>
+#include <time.h>
 #include <unistd.h>
 
 #include <logur.h>
@@ -90,4 +92,88 @@ void logur_set_log_level(logur_t *logur, log_level_t log_level) {
   logur->log_level = log_level;
 }
 
+void logur_set_log_fmt(logur_t *logur, const char *func_name) {
+  logur->log_fmt->func_name = func_name;
+  logur->log_fmt->line = __LINE__;
+}
+
+logur_log_fmt_t *logur_get_log_fmt(logur_t *logur) { return logur->log_fmt; }
+
 int logur_get_log_level(logur_t *logur) { return logur->log_level; }
+
+char *__get_timestamp() {
+  time_t rawtime;
+  struct tm *timeinfo;
+
+  time(&rawtime);
+  timeinfo = localtime(&rawtime);
+
+  return asctime(timeinfo);
+}
+
+char *__get_ctime() {
+  char *str_time = (char *)malloc(9 * sizeof(char));
+  PERROR_IF(str_time, "str_time");
+
+  time_t now;
+
+  time(&now);
+  struct tm *local = localtime(&now);
+
+  sprintf(str_time, "%02d:%02d:%02d", local->tm_hour, local->tm_min,
+          local->tm_sec);
+
+  return str_time;
+}
+
+char *__get_cdate() {
+  char *str_date = (char *)malloc(11 * sizeof(char));
+  PERROR_IF(str_date, "str_date");
+
+  time_t now;
+
+  time(&now);
+
+  struct tm *local = localtime(&now);
+
+  sprintf(str_date, "%02d/%02d/%02d", local->tm_mday, local->tm_mon + 1,
+          local->tm_year + 1900);
+
+  return str_date;
+}
+
+void logur_log(logur_t *logur, const char *func_name, int line, char *file,
+               const char *msg, ...) {
+  int log_level = logur_get_log_level(logur);
+  int str_len = strlen(msg) + 1;
+  char *cur_time = __get_ctime();
+  char *cur_date = __get_cdate();
+
+  char *buffer = (char *)malloc(str_len);
+  PERROR_IF(buffer, "buffer malloc");
+
+  va_list vl;
+  va_start(vl, msg);
+  vsnprintf(buffer, str_len, msg, vl);
+  va_end(vl);
+
+  printf("%s\n", buffer);
+  printf("%d\n", log_level);
+
+  logur->log_fmt->func_name = func_name;
+  logur->log_fmt->line = line;
+  logur->log_fmt->file_name = file;
+  logur->log_fmt->timestamp = __get_timestamp();
+  logur->log_fmt->time = cur_time;
+  logur->log_fmt->date = cur_date;
+
+  printf("%s\n", logur->log_fmt->func_name);
+  printf("%d\n", logur->log_fmt->line);
+  printf("%s\n", logur->log_fmt->file_name);
+  printf("%s\n", logur->log_fmt->time);
+  printf("%s\n", logur->log_fmt->date);
+
+  free(buffer);
+  free(cur_time);
+  free(cur_date);
+}

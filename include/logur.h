@@ -44,14 +44,17 @@ extern void logur_log_fmt_dtor(struct logur_log_fmt_t *);
 
 extern void logur_set_log_file(struct logur_t *logur, const char *file_name);
 extern void logur_set_log_level(struct logur_t *logur, log_level_t);
+extern void logur_set_log_fmt(struct logur_t *logur, const char *func_name);
+extern struct logur_log_fmt_t *logur_get_log_fmt(struct logur_t *logur);
 extern int logur_get_log_level(struct logur_t *logur);
 
-void logur_log(struct logur_t *logur, const char *msg, ...)
-    __attribute__((format(printf, 2, 3)));
+void logur_log(struct logur_t *logur, const char *func_name, int line,
+               char *file, const char *msg, ...)
+    __attribute__((format(printf, 5, 6)));
 
-#define DEBUG(...) logur_log(logur, __VA_ARGS__)
-#define INFO(...) lour_log(logur, __VA_ARGS__)
-#define ERROR(...) logur_log(logur, __VA_ARGS__)
-#define WARNING(...) logur_log(logur, __VA_ARGS__)
+#define DEBUG(...) logur_log(logur, __func__, __LINE__, __FILE__, __VA_ARGS__)
+#define INFO(...) lour_log(logur, __func__, __LINE__, __FILE__, __VA_ARGS__)
+#define ERROR(...) logur_log(logur, __func__, __LINE__, __FILE__, __VA_ARGS__)
+#define WARNING(...) logur_log(logur, __func__, __LINE__, __FILE__, __VA_ARGS__)
 
 #endif
