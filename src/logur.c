@@ -92,14 +92,7 @@ void logur_set_log_level(logur_t *logur, log_level_t log_level) {
   logur->log_level = log_level;
 }
 
-void logur_set_log_fmt(logur_t *logur, const char *func_name) {
-  logur->log_fmt->func_name = func_name;
-  logur->log_fmt->line = __LINE__;
-}
-
 logur_log_fmt_t *logur_get_log_fmt(logur_t *logur) { return logur->log_fmt; }
-
-int logur_get_log_level(logur_t *logur) { return logur->log_level; }
 
 char *__get_timestamp() {
   time_t rawtime;
@@ -142,9 +135,18 @@ char *__get_cdate() {
   return str_date;
 }
 
+/*
+char* __create_log_str(logur_t* logur) {
+	
+}
+
+void __do_log(logur_t* logur) {
+	
+}
+*/
+
 void logur_log(logur_t *logur, const char *func_name, int line, char *file,
                const char *msg, ...) {
-  int log_level = logur_get_log_level(logur);
   int str_len = strlen(msg) + 1;
   char *cur_time = __get_ctime();
   char *cur_date = __get_cdate();
@@ -157,21 +159,23 @@ void logur_log(logur_t *logur, const char *func_name, int line, char *file,
   vsnprintf(buffer, str_len, msg, vl);
   va_end(vl);
 
-  printf("%s\n", buffer);
-  printf("%d\n", log_level);
-
   logur->log_fmt->func_name = func_name;
   logur->log_fmt->line = line;
   logur->log_fmt->file_name = file;
   logur->log_fmt->timestamp = __get_timestamp();
   logur->log_fmt->time = cur_time;
   logur->log_fmt->date = cur_date;
+	logur->log_fmt->pid = getpid();
 
   printf("%s\n", logur->log_fmt->func_name);
   printf("%d\n", logur->log_fmt->line);
   printf("%s\n", logur->log_fmt->file_name);
   printf("%s\n", logur->log_fmt->time);
   printf("%s\n", logur->log_fmt->date);
+	printf("%s\n", logur->log_fmt->timestamp);
+	printf("%d\n", logur->log_fmt->pid);
+	
+	printf("%zu\n", sizeof(logur_log_fmt_t));
 
   free(buffer);
   free(cur_time);
