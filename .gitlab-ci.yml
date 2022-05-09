@@ -14,7 +14,6 @@ stages:
   - build
   - test
   - package
-  - dock
   - upload
 
 get-sonar-binaries:
@@ -36,14 +35,14 @@ get-sonar-binaries:
   only:
     - main
 
-dev_clang-format_job:
+clang_format_job:
   stage: validate
   script:
     - find ./src/ ./include/  \( \( -name \*.c -o -name \*.h \) -a ! -iname \*soap\* \) -print0 | xargs -0 -n 1 clang-format --Werror -n --verbose
   only:
     - main
 
-dev_build_job:
+build_job:
   stage: build
   cache:
     policy: pull-push
@@ -67,7 +66,7 @@ dev_build_job:
   only:
     - main
 
-dev_unit_testing_job:                                                                                         
+unit_testing_job:                                                                                         
   stage: test                                                                                                 
   cache:                                                                                                      
     policy: pull                                                                                              
@@ -86,7 +85,7 @@ dev_unit_testing_job:
   only:                                                                                                       
     - main
 
-sonarcloud-check:
+sonarcloud_job:
   stage: test
   cache:                                                                                                      
     policy: pull-push                                                                                         
@@ -102,7 +101,7 @@ sonarcloud-check:
   only:                                                                                                       
     - main 
 
-dev_build_rpm_job:
+rpm_package_job:
   stage: package
   cache:
     policy: pull-push
@@ -114,20 +113,6 @@ dev_build_rpm_job:
     - ls -l
     - cd build
     - make package
-  only:
-    - main
-
-dev_doc_job:
-  stage: dock
-  cache:                                                                                                      
-    policy: pull-push                                                                                         
-    key: "${CI_COMMIT_SHORT_SHA}"                                                                             
-    paths:                                                                                                    
-      - build/
-  script:
-    - ls -l
-    - cd build
-    - make docs
   only:
     - main
 
